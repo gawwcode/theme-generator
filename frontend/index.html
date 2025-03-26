@@ -1,11 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Art theme generator</title>
-    <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Thèmes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #theme {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: #333;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
+    <h1>Générateur de Thèmes</h1>
+    <button id="generateButton">Générer un Thème</button>
+    <div id="theme"></div>
 
-    <script src="/script.js"></script>
+    <script>
+        // Récupérer la phrase depuis l'API
+        document.getElementById('generateButton').addEventListener('click', async () => {
+            try {
+                // Afficher un indicateur de chargement
+                document.getElementById('theme').textContent = "Chargement...";
+
+                // Appeler l'API PythonAnywhere
+                const response = await fetch('https://gaww.pythonanywhere.com/generate-theme');
+                
+                // Vérifier si la réponse est OK
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                // Extraire les données JSON
+                const data = await response.json();
+                
+                // Afficher la phrase
+                document.getElementById('theme').textContent = data.theme;
+            } catch (error) {
+                // Gérer les erreurs
+                console.error('Erreur lors de la génération du thème:', error);
+                document.getElementById('theme').textContent = 'Erreur. Réessayez.';
+            }
+        });
+    </script>
 </body>
 </html>

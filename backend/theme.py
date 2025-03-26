@@ -1,7 +1,4 @@
 import random
-from flask import Flask, jsonify
-
-app = Flask(__name__)
 
 # Base de données pour les éléments de la phrase
 data = {
@@ -12,7 +9,6 @@ data = {
     "locations": ["in a giant forest", "on a distant planet", "through a bustling city", "across a serene lake", "under a starry sky"]
 }
 
-@app.route('/generate-theme', methods=['GET'])
 def generate_theme():
     # Sélectionner un élément aléatoire de chaque catégorie
     adjective = random.choice(data["adjectives"])
@@ -22,8 +18,8 @@ def generate_theme():
     location = random.choice(data["locations"])
 
     # Construire la phrase
-    theme = f"{adjective} {subject} {verb} {adverb} {location}"
-    return jsonify({"theme": theme})
+    return f"{adjective} {subject} {verb} {adverb} {location}"
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    theme = generate_theme()
+    print("Phrase générée :", theme)
